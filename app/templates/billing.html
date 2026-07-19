@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}
+Billing
+{% endblock %}
+
+{% block content %}
+
+<h2>Generate Bill</h2>
+
+<form id="billingForm">
+
+    <div>
+
+        <label>Customer Email</label>
+
+        <input
+            type="email"
+            id="email"
+            required
+        >
+
+    </div>
+
+    <hr>
+
+    <h3>Products</h3>
+
+    <div id="productContainer">
+
+    </div>
+
+    <button
+        type="button"
+        id="addProductBtn"
+    >
+        Add Product
+    </button>
+
+    <hr>
+
+    <h3>Available Denominations</h3>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Denomination</th>
+
+                <th>Available Count</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for value in [500,200,100,50,20,10,5,2,1] %}
+
+            <tr>
+
+                <td>{{ value }}</td>
+
+                <td>
+
+                    <input
+                        type="number"
+                        class="denomination"
+                        data-value="{{ value }}"
+                        value="0"
+                        min="0"
+                    >
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <hr>
+
+    <label>
+
+        Customer Paid Amount
+
+    </label>
+
+    <input
+        type="number"
+        id="cashPaid"
+        step="0.01"
+        required
+    >
+
+    <br><br>
+
+    <button type="submit">
+
+        Generate Bill
+
+    </button>
+
+</form>
+
+<hr>
+
+<div id="result"></div>
+
+<script src="{{ url_for('static', path='js/billing.js') }}"></script>
+
+{% endblock %}

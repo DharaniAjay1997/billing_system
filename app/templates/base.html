@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        {% block title %}
+        Billing System
+        {% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>Billing System</h1>
+
+    <nav>
+
+        <a href="/">Home</a>
+
+        <a href="/billing">Generate Bill</a>
+
+        <a href="/history">Purchase History</a>
+
+    </nav>
+
+</header>
+
+<hr>
+
+{% block content %}
+
+{% endblock %}
+
+</body>
+
+</html>

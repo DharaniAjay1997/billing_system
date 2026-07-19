@@ -1,0 +1,71 @@
+services:
+
+  web:
+    build: .
+    container_name: billing-api
+    restart: unless-stopped
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - .:/app
+
+    env_file:
+      - .env
+
+    depends_on:
+      - db
+      - mailhog
+
+  db:
+    image: postgres:16
+
+    container_name: billing-db
+
+    restart: always
+
+    environment:
+      POSTGRES_DB: billing_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  worker:
+    build: .
+    container_name: billing-worker
+
+    command: celery -A app.task.celery_app.celery worker --loglevel=info
+
+    volumes:
+      - .:/app
+
+    env_file:
+      - .env
+
+    depends_on:
+      - db
+      - rabbitmq
+      - mailhog
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+volumes:
+  postgres_data:
