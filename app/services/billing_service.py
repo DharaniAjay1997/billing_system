@@ -63,10 +63,13 @@ class BillingService:
             cash_paid=request.cash_paid,
         )
 
-        change = self._calculate_denominations(
+        try:
+            change = self._calculate_denominations(
             balance=balance,
             available_denominations=request.denominations,
         )
+        except ValueError as e:
+            raise ValidationException(str(e))
 
         try:
 
@@ -93,7 +96,6 @@ class BillingService:
             # self._send_email(
             #     bill=bill,
             # )
-            print(bill,"++++BILL====")
 
             send_invoice_email.delay(bill.id)
 
