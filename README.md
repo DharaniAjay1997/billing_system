@@ -500,4 +500,4 @@ Examples
 
 # Author
 
-Built as a backend engineering assessment demonstrating production-ready backend development using Python and FastAPI.
+Builted a Production-ready backend development using Python and FastAPI By Dharani S (Senior Software Developer)
